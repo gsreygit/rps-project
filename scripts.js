@@ -18,54 +18,77 @@ function getHumanChoice() {
     return prompt("Rock, Paper or Scissors?")
 }
 
-function playGame(rounds) {
 
-    let humanScore = 0
-    let computerScore = 0
 
-    
+let humanScore = 0
+let computerScore = 0
 
-    function playRound(humanChoice, computerChoice) {
-        if (typeof humanChoice === "string" && typeof computerChoice === "string") {
-            humanChoice = humanChoice.toUpperCase()
-            computerChoice = computerChoice.toUpperCase()
-        }
+const roundResults = document.querySelector("#results")
+const gameScore = document.querySelector("#score")
 
-        if (humanChoice == computerChoice) {
-            console.log("It's a draw! Go again!")
-        }
-        if (humanChoice == "ROCK" && computerChoice == "SCISSORS") {
-            humanScore++
-            console.log("The user wins! The score is now: " + humanScore + " to " + computerScore)
-        } else if (humanChoice == "PAPER" && computerChoice == "ROCK") {
-            humanScore++
-            console.log("The user wins! The score is now: " + humanScore + " to " + computerScore)
-        } else if (humanChoice == "SCISSORS" && computerChoice == "PAPER") {
-            humanScore++
-            console.log("The user wins! The score is now: " + humanScore + " to " + computerScore)
-        }
+function playRound(humanChoice, computerChoice) {
+    if (typeof humanChoice === "string" && typeof computerChoice === "string") {
+        humanChoice = humanChoice.toUpperCase()
+        computerChoice = computerChoice.toUpperCase()
+    }
 
-        if (humanChoice == "ROCK" && computerChoice == "PAPER") {
-            computerScore++
-            console.log("The computer wins! The score is now: " + humanScore + " to " + computerScore)
-        } else if (humanChoice == "PAPER" && computerChoice == "SCISSORS") {
-            computerScore++
-            console.log("The computer wins! The score is now: " + humanScore + " to " + computerScore)
-        } else if (humanChoice == "SCISSORS" && computerChoice == "ROCK") {
-            computerScore++
-            console.log("The computer wins! The score is now: " + humanScore + " to " + computerScore)
-        }
+    if (humanChoice == computerChoice) {
+       roundResults.textContent = "It's a draw, go again!"
 
     }
-    for (let i = 0; i < rounds; i++) {
-        let humanTurn = getHumanChoice()
-        let computerTurn = getComputerChoice()
-        playRound(humanTurn, computerTurn)
+    if (humanChoice == "ROCK" && computerChoice == "SCISSORS") {
+        humanScore++
+        roundResults.textContent = "The user wins!"
+        gameScore.textContent = "The score is now: " + humanScore + " " + computerScore
+    } else if (humanChoice == "PAPER" && computerChoice == "ROCK") {
+        humanScore++
+        roundResults.textContent = "The user wins!"
+        gameScore.textContent = "The score is now: " + humanScore + " " + computerScore
+    } else if (humanChoice == "SCISSORS" && computerChoice == "PAPER") {
+        humanScore++
+        roundResults.textContent = "The user wins!"
+        gameScore.textContent = "The score is now: " + humanScore + " " + computerScore
     }
+
+    if (humanChoice == "ROCK" && computerChoice == "PAPER") {
+        computerScore++
+        roundResults.textContent = "The computer wins!"
+        gameScore.textContent = "The score is now: " + humanScore + " " + computerScore
+    } else if (humanChoice == "PAPER" && computerChoice == "SCISSORS") {
+        computerScore++
+        roundResults.textContent = "The computer wins!"
+        gameScore.textContent = "The score is now: " + humanScore + " " + computerScore
+    } else if (humanChoice == "SCISSORS" && computerChoice == "ROCK") {
+        computerScore++
+        roundResults.textContent = "The computer wins!"
+        gameScore.textContent = "The score is now: " + humanScore + " " + computerScore
+    }
+    if (humanScore == 5) {
+        gameScore.textContent = "That's it! The user has won the best of 7!"
+        
+    } else if (computerScore == 5) {
+        gameScore.textContent = "That's it! The computer has won the best of 7!"
+        
+    }
+
 }
 
+const btnList = document.querySelectorAll("button")
 
-playGame(5);
+btnList.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        playRound(e.target.textContent, getComputerChoice())
+        if (computerScore == 5 || humanScore == 5) {
+            btnList.forEach((button) => {
+                button.disabled = true
+            })
+        }
+    })
+})
+
+
+
+
 
 
 
